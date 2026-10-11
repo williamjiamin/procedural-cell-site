@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://williamjiamin.github.io/procedural-cell-site/sitemap.xml

@@ -1,0 +1,30 @@
+name: Support or feedback
+description: Report a problem or suggest an improvement for Procedural Cell.
+title: "[Support] "
+body:
+  - type: markdown
+    attributes:
+      value: "This request will be public. Do not include passwords, payment details, receipts, private contact information or student-identifying information."
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened or what would you like to improve?
+      description: Include steps to reproduce a problem and what you expected.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: App version, device model and iOS version
+      description: Share technical details only, without device serial numbers or account information.
+  - type: input
+    id: specimen
+    attributes:
+      label: Specimen, Story or Study
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public support request
+      options:
+        - label: I have not included private, payment or student-identifying information.
+          required: true
