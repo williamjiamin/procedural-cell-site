@@ -1,6 +1,6 @@
-# Procedural Cell website
+# Simple Biology: Cell Lab website
 
-Public project information, support, privacy policy and terms for Procedural Cell. This repository contains only the public website, its branding asset and support templates.
+Public project information, support, privacy policy and terms for Simple Biology: Cell Lab. This repository contains only the public website, its branding asset and support templates.
 
 Published with GitHub Pages from the root of `main`. No build step or third-party scripts.
 
