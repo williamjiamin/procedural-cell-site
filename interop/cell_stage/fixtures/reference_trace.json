@@ -1,0 +1,28 @@
+{
+  "cell": {
+    "alive": true,
+    "biomass": 9.599999999999975,
+    "defense_trait": 2,
+    "division_count": 0,
+    "energy": 39.89,
+    "generation": 0,
+    "id": 1,
+    "mutation_count": 0,
+    "nutrients": 10.200000000000019,
+    "rng_state": 123456,
+    "schema": 1,
+    "speed_trait": 2,
+    "uptake_trait": 2,
+    "x_m": 9e-06,
+    "y_m": 0.0
+  },
+  "dt_s": 0.1,
+  "events": 11,
+  "food": {
+    "food_units": 8.199999999999932,
+    "food_x_m": 9e-06,
+    "food_y_m": 0.0
+  },
+  "seed": 123456,
+  "steps": 120
+}

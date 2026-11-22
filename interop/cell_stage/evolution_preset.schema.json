@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cell stage evolution preset v1",
+  "description": "Single selected-cell exchange contract for the EV1 kernel. Scalar resources are abstract game units.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "kernel", "seed", "dt_s", "mutation_bp", "cell", "food_site"],
+  "properties": {
+    "schema": {"const": "cell_stage_evolution_preset.v1"},
+    "kernel": {"const": "EV1"},
+    "seed": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+    "dt_s": {"type": "number", "minimum": 1e-16, "maximum": 10},
+    "mutation_bp": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "cell": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema", "id", "generation", "rng_state", "x_m", "y_m", "energy", "biomass", "nutrients", "speed_trait", "uptake_trait", "defense_trait", "division_count", "mutation_count", "alive"],
+      "properties": {
+        "schema": {"const": 1},
+        "id": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "generation": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "rng_state": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+        "x_m": {"type": "number", "minimum": -1000, "maximum": 1000},
+        "y_m": {"type": "number", "minimum": -1000, "maximum": 1000},
+        "energy": {"type": "number", "minimum": 0, "maximum": 40},
+        "biomass": {"type": "number", "minimum": 0, "maximum": 1000000},
+        "nutrients": {"type": "number", "minimum": 0, "maximum": 30},
+        "speed_trait": {"type": "integer", "minimum": 0, "maximum": 8},
+        "uptake_trait": {"type": "integer", "minimum": 0, "maximum": 8},
+        "defense_trait": {"type": "integer", "minimum": 0, "maximum": 8},
+        "division_count": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "mutation_count": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "alive": {"type": "boolean"}
+      }
+    },
+    "food_site": {
+      "type": "object", "additionalProperties": false,
+      "required": ["food_x_m", "food_y_m", "food_units"],
+      "properties": {
+        "food_x_m": {"type": "number", "minimum": -1000, "maximum": 1000},
+        "food_y_m": {"type": "number", "minimum": -1000, "maximum": 1000},
+        "food_units": {"type": "number", "minimum": 0, "maximum": 1000000}
+      }
+    }
+  }
+}

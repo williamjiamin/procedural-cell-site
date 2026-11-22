@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1925">
+  <meta name="description" content="Try a deterministic, offline cell-evolution teaching preview in the browser.">
+  <title>Cell Evolution | Simple Biology: Cell Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cell_stage_demo.css">
+  <script defer src="cell_stage_demo.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to demo</a>
+  <header>
+    <a class="brand" href="./">Simple Biology: Cell Lab</a>
+    <nav aria-label="Main navigation"><a href="./">Overview</a><a href="evolution.html" aria-current="page">Cell evolution</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a></nav>
+  </header>
+  <main id="main" class="cell-main">
+    <section class="cell-heading">
+      <div>
+        <p class="eyebrow">INTERACTIVE MODEL / EV1 PREVIEW</p>
+        <h1>One cell.<br><span>A world of choices.</span></h1>
+        <p class="lead">Watch a tiny teaching model absorb food, turn nutrients into biomass and prepare to divide. Every step follows the same fixed, seeded rules.</p>
+      </div>
+      <div class="cell-explainer"><span class="micro-label">WHY IT MATTERS</span><p>Adaptation is not a conscious decision. Try trait settings and watch how a simple ruleset changes a modeled outcome. This is a learning illustration, not a laboratory prediction.</p></div>
+    </section>
+    <div class="lab-layout">
+      <section class="lab-surface" aria-label="Live cell evolution simulation">
+        <div class="surface-top"><div><span class="signal-dot" aria-hidden="true"></span> <strong id="mode">LIVE · DETERMINISTIC</strong></div><div class="surface-meta">EV1 / local computation</div></div>
+        <canvas id="evolution-canvas" width="720" height="500" role="img" aria-label="A rendered cell moves toward a local nutrient source; click to select another cell after division.">Your browser needs a two-dimensional canvas.</canvas>
+        <div class="surface-bottom"><span><span class="legend-cell" aria-hidden="true"></span> Cell membrane</span><span><span class="legend-food" aria-hidden="true"></span> Nutrient site</span><span>Canvas shows abstract game scale</span></div>
+        <div class="transport">
+          <button id="play" class="primary" aria-pressed="false">Play evolution</button>
+          <button id="step">+ 1 step</button>
+          <button id="burst">+ 120 steps</button>
+          <button id="divide">Divide cell</button>
+          <button id="reset">Reset</button>
+        </div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite">Ready to explore.</p>
+      </section>
+      <aside class="lab-panel" aria-label="Simulation settings and metrics">
+        <div class="panel-title"><p class="eyebrow">01 / VARIABLES</p><h2>Lab conditions</h2><p>Adjust a starting trait, then apply it to a fresh seeded cell.</p></div>
+        <div class="control-stack">
+          <label class="ctrl"><span>Seed <small>same seed, same trace</small></span><input id="seed" type="number" min="0" max="4294967295" step="1" value="123456" inputmode="numeric"></label>
+          <label class="ctrl"><span>Movement trait <output id="speed-value">2</output></span><input id="speed-trait" type="range" min="0" max="8" step="1" value="2"></label>
+          <label class="ctrl"><span>Uptake trait <output id="uptake-value">2</output></span><input id="uptake-trait" type="range" min="0" max="8" step="1" value="2"></label>
+          <label class="ctrl"><span>Defense trait <output id="defense-value">2</output></span><input id="defense-trait" type="range" min="0" max="8" step="1" value="2"></label>
+          <label class="ctrl"><span>Food supply <output id="food-value">25</output></span><input id="food-units" type="range" min="0" max="100" step="1" value="25"></label>
+          <button id="apply" class="apply">Apply conditions</button>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel-title"><p class="eyebrow">02 / READOUT</p><h2>Live state</h2></div>
+        <div class="stat-grid">
+          <div><span>Ticks</span><strong id="tick-count">0</strong></div><div><span>Generation</span><strong id="generation">0</strong></div>
+          <div><span>Energy</span><strong id="energy">12.00</strong></div><div><span>Biomass</span><strong id="biomass">3.00</strong></div>
+          <div><span>Nutrients</span><strong id="nutrients">0.00</strong></div><div><span>Food left</span><strong id="food-remaining">25.00</strong></div>
+        </div>
+        <div class="specimen-row"><span>Selected cell <b id="active-cell">1</b> / <b id="cell-count">1</b> total</span><span id="ready" class="pill">GROWING</span></div>
+        <p class="history-title">Biomass over recent steps</p>
+        <canvas id="timeline" class="timeline" width="280" height="56" aria-label="Recent biomass history chart" role="img"></canvas>
+      </aside>
+    </div>
+    <section class="lab-notes">
+      <div><p class="eyebrow">03 / OBSERVATIONS</p><h2>See what changed.</h2><p><strong id="event-log">State restored from preset</strong></p><p class="micro-detail">Events observed: <span id="event-summary">NONE</span></p><p class="micro-detail">Division happens only when you choose it. The model does not automatically split a cell when it reaches the threshold.</p></div>
+      <div><p class="eyebrow">04 / INTEROPERABILITY</p><h2>Carry a preset across.</h2><p>Export the selected cell and shared nutrient site in a versioned JSON format, or load a local preset. This never uploads data or contacts a remote service.</p>
+        <div class="preset-actions"><button id="export">Export selected preset</button><label class="import-label" for="import">Import local JSON <input id="import" type="file" accept=".json,application/json"></label></div>
+        <p class="micro-detail">The exported state is data only. Existing application systems remain the owner of clocks, cell collections, nutrient stores and progression.</p>
+      </div>
+    </section>
+    <p class="limitation"><strong>Model limits:</strong> position and time are expressed in metres and seconds. Energy, nutrient and biomass values are abstract gameplay units. These interactions are not physiological measurements, a prediction of evolution, or a medical tool.</p>
+  </main>
+  <footer><p>Simple Biology: Cell Lab · An independent educational project.</p><nav aria-label="Footer"><a href="./">Overview</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+</body>
+</html>

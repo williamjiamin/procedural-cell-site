@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "none",
+    "lib": ["ES2020", "DOM"],
+    "strict": true,
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "outFile": "cell_stage_demo.js",
+    "removeComments": false,
+    "skipLibCheck": true
+  },
+  "files": ["cell_stage_core.ts", "cell_stage_widget.ts"]
+}
