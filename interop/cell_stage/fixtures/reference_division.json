@@ -1,0 +1,18 @@
+{
+  "seed": 1001,
+  "parent_initial": {"biomass": 10.0, "energy": 20.0, "nutrients": 3.0},
+  "daughter_id": 22,
+  "mutation_bp": 10000,
+  "parent_after": {
+    "id": 1, "generation": 0, "rng_state": 3138044488, "division_count": 1,
+    "x_m": -0.0000125, "energy": 10.0, "biomass": 5.0, "nutrients": 1.5,
+    "speed_trait": 2, "uptake_trait": 2, "defense_trait": 2,
+    "mutation_count": 0
+  },
+  "daughter_after": {
+    "id": 22, "generation": 1, "rng_state": 2335559369, "division_count": 0,
+    "x_m": 0.0000125, "energy": 10.0, "biomass": 5.0, "nutrients": 1.5,
+    "speed_trait": 2, "uptake_trait": 3, "defense_trait": 2,
+    "mutation_count": 1
+  }
+}
