@@ -23,6 +23,16 @@ import {
   stepMacrophageSwarm,
   switchIsomorphicLens,
 } from "./micro_clinic_lab.mjs";
+import {
+  GYROID_DEFAULT_SEED_U32,
+  computeBeerLambertTransmission,
+  computeCurlDivergenceNorm,
+  createChemotaxisEcosystem,
+  evaluateGyroidWithNormalAndAo,
+  evaluateSphericalHarmonicLobe,
+  measureGyroidVoidFraction,
+  stepChemotaxisEcosystem,
+} from "./chemotaxis_curl_gyroid.mjs";
 
 const rdCanvas = document.getElementById("rd-canvas");
 const rdCtx = rdCanvas.getContext("2d");
@@ -308,3 +318,55 @@ document.getElementById("swarm-reset")?.addEventListener("click", () => {
   renderLensPreview();
 });
 renderSwarmSummary();
+
+const chemoDegreeEl = document.getElementById("chemo-degree");
+const chemoDegreeValEl = document.getElementById("chemo-degree-val");
+const gyroidIsoEl = document.getElementById("gyroid-iso");
+const gyroidIsoValEl = document.getElementById("gyroid-iso-val");
+const chemoCanvasEl = document.getElementById("chemo-canvas");
+const chemoSummaryEl = document.getElementById("chemo-summary");
+
+let chemoEco = createChemotaxisEcosystem();
+
+function renderChemoGyroidLab() {
+  if (!chemoSummaryEl) return;
+  const degree = Number(chemoDegreeEl?.value ?? 3);
+  const iso = Number(gyroidIsoEl?.value ?? 0.1);
+  if (chemoDegreeValEl) chemoDegreeValEl.textContent = String(degree);
+  if (gyroidIsoValEl) gyroidIsoValEl.textContent = iso.toFixed(2);
+  const voidFrac = measureGyroidVoidFraction(GYROID_DEFAULT_SEED_U32, 6, iso);
+  const samplePt = chemoEco.organisms[0]?.position ?? [0.4, 0.2, -0.3];
+  const divNorm = computeCurlDivergenceNorm(samplePt, chemoEco.time);
+  const gProbe = evaluateGyroidWithNormalAndAo(samplePt, GYROID_DEFAULT_SEED_U32, iso);
+  const lobe = evaluateSphericalHarmonicLobe(0.9, 1.1, degree, chemoEco.time);
+  const glow = computeBeerLambertTransmission(1.35, 0.4, 0.85);
+  chemoSummaryEl.textContent =
+    `Step ${chemoEco.stepCount} (${chemoEco.stage}) · Harmonic l=${degree} delta=${lobe.toFixed(3)} · |div(curl)|=${divNorm.toExponential(1)} · Gyroid phi_void=${voidFrac.toFixed(3)} (seed 0x${GYROID_DEFAULT_SEED_U32.toString(16).toUpperCase()}) · AO=${gProbe.ao.toFixed(2)} · Glow=${glow.scatteredGlow.toFixed(2)}`;
+  if (chemoCanvasEl && chemoCanvasEl.getContext) {
+    const ctx = chemoCanvasEl.getContext("2d");
+    ctx.fillStyle = "#0b1925";
+    ctx.fillRect(0, 0, chemoCanvasEl.width, chemoCanvasEl.height);
+    const scaleX = chemoCanvasEl.width / chemoEco.config.extent;
+    const scaleY = chemoCanvasEl.height / chemoEco.config.extent;
+    for (const org of chemoEco.organisms) {
+      const px = (org.position[0] + chemoEco.config.extent * 0.5) * scaleX;
+      const pz = (org.position[2] + chemoEco.config.extent * 0.5) * scaleY;
+      ctx.fillStyle = `rgba(92, 232, 198, ${(0.45 + org.energy * 0.5).toFixed(2)})`;
+      ctx.beginPath();
+      ctx.arc(px, pz, 4 + org.energy * 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+chemoDegreeEl?.addEventListener("input", renderChemoGyroidLab);
+gyroidIsoEl?.addEventListener("input", renderChemoGyroidLab);
+document.getElementById("chemo-step")?.addEventListener("click", () => {
+  stepChemotaxisEcosystem(chemoEco, 12);
+  renderChemoGyroidLab();
+});
+document.getElementById("chemo-reset")?.addEventListener("click", () => {
+  chemoEco = createChemotaxisEcosystem();
+  renderChemoGyroidLab();
+});
+renderChemoGyroidLab();
