@@ -1,5 +1,5 @@
 import {
-  PBR_24_SURFACE_RECIPES,
+  PBR_32_SURFACE_RECIPES,
   REACTION_DIFFUSION_PRESETS,
   REQUIRED_PBR_CHANNELS,
   computeHeitzNeyretHexWeights,
@@ -7,6 +7,13 @@ import {
   generateBotanicalPhyllotaxis,
   stepReactionDiffusionField,
 } from "./morphogenesis_lab.mjs";
+import {
+  ARCH_ORDERS,
+  TILE_LAG_WITNESSES,
+  WORKSHOP_CUTAWAY_ASSETS,
+  evaluateOrderBay,
+  solveCutawayPose,
+} from "./arch_actuator_lab.mjs";
 
 const rdCanvas = document.getElementById("rd-canvas");
 const rdCtx = rdCanvas.getContext("2d");
@@ -77,11 +84,47 @@ function drawPhyllotaxis() {
 }
 
 function renderPbrSummary() {
-  const recipe = PBR_24_SURFACE_RECIPES.find((r) => r.slug === matEl.value) ?? PBR_24_SURFACE_RECIPES[0];
+  const recipe = PBR_32_SURFACE_RECIPES.find((r) => r.slug === matEl.value) ?? PBR_32_SURFACE_RECIPES[0];
   const scale = Number(uvScaleEl.value);
   const hex = computeHeitzNeyretHexWeights(0.42, 0.71, scale);
   const wText = hex.vertices.map((vt) => vt.weight.toFixed(2)).join(" / ");
   pbrSummaryEl.textContent = `${recipe.slug} (${recipe.category}) · Metallic ${recipe.metallic.toFixed(2)} · Roughness ${recipe.roughness.toFixed(2)} · IOR ${recipe.ior.toFixed(2)} · 5 Maps [${REQUIRED_PBR_CHANNELS.join(", ")}] · Hex weights @ (0.42,0.71): ${wText}`;
+}
+
+const cutawayAssetEl = document.getElementById("cutaway-asset");
+const shoulderEl = document.getElementById("cutaway-shoulder");
+const elbowEl = document.getElementById("cutaway-elbow");
+const shoulderValEl = document.getElementById("cutaway-shoulder-val");
+const elbowValEl = document.getElementById("cutaway-elbow-val");
+const cutawaySummaryEl = document.getElementById("cutaway-summary");
+
+const archOrderEl = document.getElementById("arch-order");
+const archScaleEl = document.getElementById("arch-scale");
+const archLoadEl = document.getElementById("arch-load");
+const archScaleValEl = document.getElementById("arch-scale-val");
+const archLoadValEl = document.getElementById("arch-load-val");
+const archSummaryEl = document.getElementById("arch-summary");
+
+function renderCutawaySummary() {
+  if (!cutawayAssetEl || !cutawaySummaryEl) return;
+  const asset = WORKSHOP_CUTAWAY_ASSETS.find((a) => a.id === cutawayAssetEl.value) ?? WORKSHOP_CUTAWAY_ASSETS[0];
+  const sh = Number(shoulderEl?.value ?? 35);
+  const el = Number(elbowEl?.value ?? -25);
+  if (shoulderValEl) shoulderValEl.textContent = String(sh);
+  if (elbowValEl) elbowValEl.textContent = String(el);
+  const pose = solveCutawayPose([0, sh, el, 0, 15, 0]);
+  cutawaySummaryEl.textContent = `${asset.label} · LOD0/1/2: ${asset.lod0Tris}/${asset.lod1Tris}/${asset.lod2Tris} tris · Mat: ${asset.material} · Reach ${pose.radialReachM} m · Tip [${pose.endEffectorM.join(", ")}] m`;
+}
+
+function renderArchSummary() {
+  if (!archOrderEl || !archSummaryEl) return;
+  const scaleFactor = Number(archScaleEl?.value ?? 1.0);
+  const roofLoadKnPerM = Number(archLoadEl?.value ?? 12);
+  if (archScaleValEl) archScaleValEl.textContent = scaleFactor.toFixed(2);
+  if (archLoadValEl) archLoadValEl.textContent = String(roofLoadKnPerM);
+  const bay = evaluateOrderBay(archOrderEl.value, { scaleFactor, roofLoadKnPerM });
+  const lag = TILE_LAG_WITNESSES[0];
+  archSummaryEl.textContent = `${bay.label} · Aperture ${bay.apertureWidthM} x ${bay.apertureHeightM} m (${bay.clearsPrism ? "CLEAR >= 0.80x1.68 m" : "BLOCKED"}) · Arch thrust ${bay.horizontalThrustKn} kN · LOD2 reduction ${bay.lodReductionPct}% · Tile-lag ${lag.straightRepeatCorr.toFixed(3)} -> ${lag.stochasticCorr.toFixed(3)}`;
 }
 
 for (const [key, cfg] of Object.entries(REACTION_DIFFUSION_PRESETS)) {
@@ -90,11 +133,25 @@ for (const [key, cfg] of Object.entries(REACTION_DIFFUSION_PRESETS)) {
   opt.textContent = cfg.label;
   presetEl.appendChild(opt);
 }
-for (const recipe of PBR_24_SURFACE_RECIPES) {
+for (const recipe of PBR_32_SURFACE_RECIPES) {
   const opt = document.createElement("option");
   opt.value = recipe.slug;
   opt.textContent = `${recipe.slug} (${recipe.category})`;
   matEl.appendChild(opt);
+}
+for (const asset of WORKSHOP_CUTAWAY_ASSETS) {
+  if (!cutawayAssetEl) break;
+  const opt = document.createElement("option");
+  opt.value = asset.id;
+  opt.textContent = asset.label;
+  cutawayAssetEl.appendChild(opt);
+}
+for (const order of Object.values(ARCH_ORDERS)) {
+  if (!archOrderEl) break;
+  const opt = document.createElement("option");
+  opt.value = order.key;
+  opt.textContent = order.label;
+  archOrderEl.appendChild(opt);
 }
 
 presetEl.addEventListener("change", () => {
@@ -132,7 +189,15 @@ countEl.addEventListener("input", drawPhyllotaxis);
 angleEl.addEventListener("input", drawPhyllotaxis);
 matEl.addEventListener("change", renderPbrSummary);
 uvScaleEl.addEventListener("input", renderPbrSummary);
+cutawayAssetEl?.addEventListener("change", renderCutawaySummary);
+shoulderEl?.addEventListener("input", renderCutawaySummary);
+elbowEl?.addEventListener("input", renderCutawaySummary);
+archOrderEl?.addEventListener("change", renderArchSummary);
+archScaleEl?.addEventListener("input", renderArchSummary);
+archLoadEl?.addEventListener("input", renderArchSummary);
 
 stepRd(15);
 drawPhyllotaxis();
 renderPbrSummary();
+renderCutawaySummary();
+renderArchSummary();

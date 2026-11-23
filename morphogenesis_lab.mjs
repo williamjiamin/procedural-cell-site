@@ -1,6 +1,6 @@
 /**
  * Clean-room Cellular Reaction-Diffusion, Botanical Phyllotaxis,
- * Heitz-Neyret Hexagonal Anti-Tiling & 24-Material 5-Map PBR Visualizer Engine.
+ * Heitz-Neyret Hexagonal Anti-Tiling & 32-Material 5-Map PBR Visualizer Engine.
  */
 
 export const REQUIRED_PBR_CHANNELS = ["albedo", "normal", "depth16", "orm", "cavity"];
@@ -13,7 +13,7 @@ export const REACTION_DIFFUSION_PRESETS = {
   stripes: { label: "Turing Labyrinth", feed: 0.029, kill: 0.057, du: 0.16, dv: 0.08 },
 };
 
-export const PBR_24_SURFACE_RECIPES = [
+export const PBR_32_SURFACE_RECIPES = [
   { slug: "aaa_carved_limestone", category: "architecture", metallic: 0.0, roughness: 0.78, ior: 1.52, subsurface: 0.0 },
   { slug: "aaa_dark_oak_iron", category: "metals", metallic: 0.45, roughness: 0.56, ior: 1.5, subsurface: 0.0 },
   { slug: "aaa_royal_silk_brocade", category: "fabrics", metallic: 0.08, roughness: 0.42, ior: 1.54, subsurface: 0.0 },
@@ -38,7 +38,17 @@ export const PBR_24_SURFACE_RECIPES = [
   { slug: "aaa_b3_botanical_leaf_sprigs", category: "botanical", metallic: 0.0, roughness: 0.54, ior: 1.44, subsurface: 0.26 },
   { slug: "aaa_b3_gilded_ledger_parchment", category: "fabrics", metallic: 0.14, roughness: 0.7, ior: 1.47, subsurface: 0.0 },
   { slug: "aaa_b3_anodized_carbon_weave", category: "tech", metallic: 0.4, roughness: 0.32, ior: 1.58, subsurface: 0.0 },
+  { slug: "aaa_b4_medieval_cobble_paving", category: "architecture", metallic: 0.0, roughness: 0.74, ior: 1.53, subsurface: 0.0 },
+  { slug: "aaa_b4_royal_velvet_embroidery", category: "fabrics", metallic: 0.12, roughness: 0.78, ior: 1.48, subsurface: 0.0 },
+  { slug: "aaa_b4_cedar_roof_shakes", category: "architecture", metallic: 0.0, roughness: 0.8, ior: 1.49, subsurface: 0.0 },
+  { slug: "aaa_b4_hammered_plate_steel", category: "metals", metallic: 0.95, roughness: 0.3, ior: 2.45, subsurface: 0.0 },
+  { slug: "aaa_b4_mossy_ancient_oak_bark", category: "botanical", metallic: 0.0, roughness: 0.86, ior: 1.47, subsurface: 0.1 },
+  { slug: "aaa_b4_woven_market_wicker", category: "fabrics", metallic: 0.0, roughness: 0.76, ior: 1.48, subsurface: 0.0 },
+  { slug: "aaa_b4_terracotta_stucco_plaster", category: "architecture", metallic: 0.0, roughness: 0.82, ior: 1.5, subsurface: 0.0 },
+  { slug: "aaa_b4_runed_obsidian_monolith", category: "tech", metallic: 0.18, roughness: 0.18, ior: 1.54, subsurface: 0.0 },
 ];
+
+export const PBR_24_SURFACE_RECIPES = PBR_32_SURFACE_RECIPES.slice(0, 24);
 
 export function createReactionDiffusionField(rows = 32, cols = 32) {
   if (!Number.isInteger(rows) || !Number.isInteger(cols) || rows < 8 || cols < 8) {
