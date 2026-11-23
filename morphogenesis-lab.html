@@ -36,7 +36,7 @@
       <div>
         <p class="eyebrow">MORPHOGENESIS &amp; BOTANY / PROCEDURAL STEM LAB</p>
         <h1>Patterns from rules.<br><span>From spots to spirals.</span></h1>
-        <p class="lead">Explore Gray-Scott reaction-diffusion morphogenesis, Vogel golden-angle botanical phyllotaxis, and stochastic hexagonal UV anti-tiling across 24 five-map PBR material recipes.</p>
+        <p class="lead">Explore Gray-Scott reaction-diffusion morphogenesis, Vogel golden-angle botanical phyllotaxis, stochastic hexagonal UV anti-tiling across 32 five-map PBR material recipes, 6-DOF actuator cutaway kinematics, and 4 parametric architectural orders.</p>
       </div>
       <div class="cell-explainer">
         <span class="micro-label">CONNECTED STEM MIRRORS</span>
@@ -76,12 +76,38 @@
     <section class="lab-notes">
       <div>
         <p class="eyebrow">03 / STOCHASTIC ANTI-TILING &amp; 5-MAP PBR</p>
-        <h2>Heitz-Neyret hexagonal surface recipes (24 materials)</h2>
+        <h2>Heitz-Neyret hexagonal surface recipes (32 materials, Batches 1–4)</h2>
         <div class="control-stack">
           <label class="ctrl"><span>Material preset</span><select id="pbr-material"></select></label>
           <label class="ctrl"><span>Hex tile scale</span><input id="pbr-scale" type="range" min="0.5" max="6" step="0.25" value="2.0"></label>
         </div>
         <p id="pbr-summary" class="micro-detail"></p>
+      </div>
+    </section>
+
+    <section class="lab-notes">
+      <div>
+        <p class="eyebrow">04 / ROBOTFORGE ACTUATOR &amp; PCB CUTAWAY INSPECTOR</p>
+        <h2>6-DOF cutaway pose &amp; workshop LOD budget (1.900 x 0.920 m bench)</h2>
+        <div class="control-stack">
+          <label class="ctrl"><span>Cutaway asset</span><select id="cutaway-asset"></select></label>
+          <label class="ctrl"><span>Shoulder pitch (deg) <output id="cutaway-shoulder-val">35</output></span><input id="cutaway-shoulder" type="range" min="-90" max="115" step="5" value="35"></label>
+          <label class="ctrl"><span>Elbow pitch (deg) <output id="cutaway-elbow-val">-25</output></span><input id="cutaway-elbow" type="range" min="-135" max="135" step="5" value="-25"></label>
+        </div>
+        <p id="cutaway-summary" class="micro-detail"></p>
+      </div>
+    </section>
+
+    <section class="lab-notes">
+      <div>
+        <p class="eyebrow">05 / FOUR ARCHITECTURE ORDERS &amp; CHIAROSCURO</p>
+        <h2>Gothic, Tudor, Classical Ionic &amp; Cyber Louver Parameter Calculator</h2>
+        <div class="control-stack">
+          <label class="ctrl"><span>Architectural order</span><select id="arch-order"></select></label>
+          <label class="ctrl"><span>Bay scale factor <output id="arch-scale-val">1.00</output></span><input id="arch-scale" type="range" min="0.75" max="1.6" step="0.05" value="1.00"></label>
+          <label class="ctrl"><span>Roof load (kN/m) <output id="arch-load-val">12</output></span><input id="arch-load" type="range" min="4" max="32" step="2" value="12"></label>
+        </div>
+        <p id="arch-summary" class="micro-detail"></p>
       </div>
     </section>
   </main>
