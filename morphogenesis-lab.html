@@ -144,6 +144,23 @@
         <p id="swarm-summary" class="micro-detail"></p>
       </div>
     </section>
+
+    <section id="chemotaxis-gyroid" class="lab-notes">
+      <div>
+        <p class="eyebrow">08 / CR-08 CHEMOTAXIS, CR-09 CURL FLOW &amp; CR-04 GYROID PORE MICRO-CAVERN</p>
+        <h2>Motile Chemotaxis (l=2..5 Harmonics), Divergence-Free Curl &amp; Gyroid Trabeculae</h2>
+        <div class="control-stack">
+          <label class="ctrl"><span>Harmonic mode degree l <output id="chemo-degree-val">3</output></span><input id="chemo-degree" type="range" min="2" max="5" step="1" value="3"></label>
+          <label class="ctrl"><span>Gyroid trabecular iso <output id="gyroid-iso-val">0.10</output></span><input id="gyroid-iso" type="range" min="-0.35" max="0.45" step="0.05" value="0.10"></label>
+        </div>
+        <div class="transport">
+          <button id="chemo-step" class="primary">Advance chemotaxis (+12 steps)</button>
+          <button id="chemo-reset">Reset CR-08/04</button>
+        </div>
+        <canvas id="chemo-canvas" width="360" height="140" role="img" aria-label="Chemotaxis curl velocity and Gyroid pore slice"></canvas>
+        <p id="chemo-summary" class="micro-detail"></p>
+      </div>
+    </section>
   </main>
   <footer>
     <p>Simple Biology: Cell Lab · Clean-room MIT procedural biology &amp; PBR visualizations.</p>
