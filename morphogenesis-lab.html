@@ -110,6 +110,40 @@
         <p id="arch-summary" class="micro-detail"></p>
       </div>
     </section>
+
+    <section id="isomorphic-preview" class="lab-notes">
+      <div>
+        <p class="eyebrow">06 / STAGE 1 (10 µm) CELLULAR ORIGIN &amp; ISOMORPHIC PLAY / ART LENS</p>
+        <h2>Single-Cell to Multiverse Evolution &amp; Shared-State Lens Switcher</h2>
+        <p class="micro-detail">Opening scale spine: Stage 1 (10 µm Single-Cell Origin, 12 µm uptake radius in <a href="evolution.html">Cell evolution</a>) -> 250 µm Protist Colony -> 2.4 mm PoreLab &amp; Macrophage Swarm Micro-Clinic -> 1.68 m Articulated Frame -> Single-Truth Multiverse View Lenses.</p>
+        <div class="control-stack">
+          <label class="ctrl"><span>Play lens</span><select id="lens-play"></select></label>
+          <label class="ctrl"><span>Art style</span><select id="lens-art"></select></label>
+        </div>
+        <canvas id="lens-canvas" width="360" height="140" role="img" aria-label="Isomorphic biological world-state lens preview"></canvas>
+        <p id="lens-summary" class="micro-detail"></p>
+      </div>
+    </section>
+
+    <section id="micro-clinic" class="lab-notes">
+      <div>
+        <p class="eyebrow">07 / PORELAB &amp; MACROPHAGE SWARM MICRO-CLINIC (LOCAL / OFFLINE)</p>
+        <h2>Viscoelastic Pore Recoil &amp; Chemotactic Swarm Mechanics</h2>
+        <div class="control-stack">
+          <label class="ctrl"><span>Initial stretched pore radius (mm) <output id="pore-stretched-val">0.92</output></span><input id="pore-stretched" type="range" min="0.30" max="1.80" step="0.02" value="0.92"></label>
+          <label class="ctrl"><span>Elapsed relaxation time (min) <output id="pore-elapsed-val">6.0</output></span><input id="pore-elapsed" type="range" min="0" max="90" step="0.5" value="6.0"></label>
+        </div>
+        <p id="pore-summary" class="micro-detail"></p>
+        <div class="control-stack">
+          <label class="ctrl"><span>Macrophage immune boost <output id="swarm-boost-val">1.00</output></span><input id="swarm-boost" type="range" min="0.5" max="2.5" step="0.1" value="1.00"></label>
+        </div>
+        <div class="transport">
+          <button id="swarm-step" class="primary">Advance swarm (+0.5 s)</button>
+          <button id="swarm-reset">Reset micro-clinic</button>
+        </div>
+        <p id="swarm-summary" class="micro-detail"></p>
+      </div>
+    </section>
   </main>
   <footer>
     <p>Simple Biology: Cell Lab · Clean-room MIT procedural biology &amp; PBR visualizations.</p>

@@ -14,6 +14,15 @@ import {
   evaluateOrderBay,
   solveCutawayPose,
 } from "./arch_actuator_lab.mjs";
+import {
+  ART_STYLES,
+  ISOMORPHIC_PLAY_STYLES,
+  PORE_LAB_DEFAULTS,
+  createBiologicalWorldState,
+  evaluatePoreRecoil,
+  stepMacrophageSwarm,
+  switchIsomorphicLens,
+} from "./micro_clinic_lab.mjs";
 
 const rdCanvas = document.getElementById("rd-canvas");
 const rdCtx = rdCanvas.getContext("2d");
@@ -201,3 +210,101 @@ drawPhyllotaxis();
 renderPbrSummary();
 renderCutawaySummary();
 renderArchSummary();
+
+const lensPlayEl = document.getElementById("lens-play");
+const lensArtEl = document.getElementById("lens-art");
+const lensCanvasEl = document.getElementById("lens-canvas");
+const lensSummaryEl = document.getElementById("lens-summary");
+const poreStretchedEl = document.getElementById("pore-stretched");
+const poreElapsedEl = document.getElementById("pore-elapsed");
+const poreStretchedValEl = document.getElementById("pore-stretched-val");
+const poreElapsedValEl = document.getElementById("pore-elapsed-val");
+const poreSummaryEl = document.getElementById("pore-summary");
+const swarmBoostEl = document.getElementById("swarm-boost");
+const swarmBoostValEl = document.getElementById("swarm-boost-val");
+const swarmSummaryEl = document.getElementById("swarm-summary");
+
+let clinicWorld = createBiologicalWorldState();
+
+function renderLensPreview() {
+  if (!lensPlayEl || !lensArtEl || !lensSummaryEl) return;
+  const snap = switchIsomorphicLens(clinicWorld, {
+    playStyle: lensPlayEl.value,
+    artStyle: lensArtEl.value,
+  });
+  const art = ART_STYLES[snap.artStyle];
+  const play = ISOMORPHIC_PLAY_STYLES[snap.playStyle];
+  lensSummaryEl.textContent = `${play.label} · Art: ${art.label} · 10 µm cell world · ATP ${snap.atp.toFixed(1)} · Integrity ${snap.integrity.toFixed(0)}% · RNG draws on switch: ${snap.rngDrawCount}`;
+  if (lensCanvasEl && lensCanvasEl.getContext) {
+    const ctx = lensCanvasEl.getContext("2d");
+    const [bg, accent, core] = art.palette;
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, lensCanvasEl.width, lensCanvasEl.height);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(90, 70, 38, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = core;
+    ctx.beginPath();
+    ctx.arc(90, 70, 14, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = accent;
+    ctx.font = "12px monospace";
+    ctx.fillText(`STAGE 1 · 10 um | ${play.pacing}`, 148, 56);
+    ctx.fillText(`ATP=${snap.atp.toFixed(1)}  RNG_DRAW=${snap.rngDrawCount}`, 148, 82);
+  }
+}
+
+function renderPoreSummary() {
+  if (!poreStretchedEl || !poreElapsedEl || !poreSummaryEl) return;
+  const stretched = Number(poreStretchedEl.value);
+  const elapsed = Number(poreElapsedEl.value);
+  if (poreStretchedValEl) poreStretchedValEl.textContent = stretched.toFixed(2);
+  if (poreElapsedValEl) poreElapsedValEl.textContent = elapsed.toFixed(1);
+  const res = evaluatePoreRecoil(stretched, PORE_LAB_DEFAULTS.equilibriumRadiusMm, elapsed);
+  poreSummaryEl.textContent = `Pore radius @ ${elapsed.toFixed(1)} min = ${res.radiusMm.toFixed(3)} mm (eq ${PORE_LAB_DEFAULTS.equilibriumRadiusMm} mm · closure ${res.closurePct.toFixed(1)}% · fast=${res.fastRemaining.toFixed(2)} slow=${res.slowRemaining.toFixed(2)})`;
+}
+
+function renderSwarmSummary(stepResult = null) {
+  if (!swarmSummaryEl) return;
+  const boost = Number(swarmBoostEl?.value ?? 1.0);
+  if (swarmBoostValEl) swarmBoostValEl.textContent = boost.toFixed(2);
+  const deltaTxt = stepResult ? `Cleared +${stepResult.clearedUnits.toFixed(2)} biofilm · ` : "";
+  swarmSummaryEl.textContent = `${deltaTxt}Macrophages: ${clinicWorld.macrophageCount} · Biofilm load: ${clinicWorld.biofilmLoad.toFixed(2)} · Shared ATP: ${clinicWorld.atp.toFixed(2)}`;
+}
+
+if (lensPlayEl && lensArtEl) {
+  for (const ps of Object.values(ISOMORPHIC_PLAY_STYLES)) {
+    const opt = document.createElement("option");
+    opt.value = ps.id;
+    opt.textContent = ps.label;
+    lensPlayEl.appendChild(opt);
+  }
+  for (const ar of Object.values(ART_STYLES)) {
+    const opt = document.createElement("option");
+    opt.value = ar.id;
+    opt.textContent = ar.label;
+    lensArtEl.appendChild(opt);
+  }
+  lensPlayEl.addEventListener("change", renderLensPreview);
+  lensArtEl.addEventListener("change", renderLensPreview);
+  renderLensPreview();
+}
+
+poreStretchedEl?.addEventListener("input", renderPoreSummary);
+poreElapsedEl?.addEventListener("input", renderPoreSummary);
+renderPoreSummary();
+
+swarmBoostEl?.addEventListener("input", () => renderSwarmSummary());
+document.getElementById("swarm-step")?.addEventListener("click", () => {
+  const stepRes = stepMacrophageSwarm(clinicWorld, 0.5, Number(swarmBoostEl?.value ?? 1.0));
+  renderSwarmSummary(stepRes);
+  renderLensPreview();
+});
+document.getElementById("swarm-reset")?.addEventListener("click", () => {
+  clinicWorld = createBiologicalWorldState();
+  renderSwarmSummary();
+  renderLensPreview();
+});
+renderSwarmSummary();
