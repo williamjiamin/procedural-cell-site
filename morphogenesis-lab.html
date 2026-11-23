@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1925">
+  <meta name="description" content="Interactive biological Gray-Scott reaction-diffusion, Vogel botanical phyllotaxis, and stochastic hexagonal 5-map PBR surface inspector.">
+  <title>Morphogenesis &amp; Procedural Surface Lab | Simple Biology: Cell Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cell_stage_demo.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Morphogenesis, Botanical Phyllotaxis & Procedural PBR Lab",
+    "url": "https://williamjiamin.github.io/procedural-cell-site/morphogenesis-lab.html",
+    "teaches": ["Reaction-Diffusion Patterning", "Golden-Angle Phyllotaxis", "Stochastic Anti-Tiling"]
+  }
+  </script>
+  <script type="module" src="morphogenesis_lab_ui.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to lab</a>
+  <header>
+    <a class="brand" href="./"><img src="assets/cell-icon.png" alt="" width="36" height="36">Simple Biology: Cell Lab</a>
+    <nav aria-label="Main navigation">
+      <a href="./">Overview</a>
+      <a href="evolution.html">Cell evolution</a>
+      <a href="morphogenesis-lab.html" aria-current="page">Morphogenesis lab</a>
+      <a href="support.html">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+  <main id="main" class="cell-main">
+    <section class="cell-heading">
+      <div>
+        <p class="eyebrow">MORPHOGENESIS &amp; BOTANY / PROCEDURAL STEM LAB</p>
+        <h1>Patterns from rules.<br><span>From spots to spirals.</span></h1>
+        <p class="lead">Explore Gray-Scott reaction-diffusion morphogenesis, Vogel golden-angle botanical phyllotaxis, and stochastic hexagonal UV anti-tiling across 24 five-map PBR material recipes.</p>
+      </div>
+      <div class="cell-explainer">
+        <span class="micro-label">CONNECTED STEM MIRRORS</span>
+        <p>Cross-linked mathematical models shared across <a href="https://acadifi.com/labs" target="_blank" rel="noreferrer">AcadiFi Quant Labs</a> and <a href="https://robotforge.org/labs" target="_blank" rel="noreferrer">RobotForge Hardware Labs</a>.</p>
+      </div>
+    </section>
+
+    <div class="lab-layout">
+      <section class="lab-surface" aria-label="Reaction-Diffusion cellular simulation">
+        <div class="surface-top"><div><strong>GRAY-SCOTT REACTION-DIFFUSION</strong></div><div class="surface-meta">40x40 periodic stencil</div></div>
+        <canvas id="rd-canvas" width="400" height="320" role="img" aria-label="Gray-Scott activator concentration field">Canvas unsupported.</canvas>
+        <div class="transport">
+          <button id="rd-toggle" class="primary">Run animation</button>
+          <button id="rd-step">+12 steps</button>
+          <button id="rd-reset">Reset seed</button>
+        </div>
+        <p id="rd-readout" class="feedback" role="status"></p>
+      </section>
+
+      <aside class="lab-panel" aria-label="Morphogenesis and botany parameters">
+        <div class="panel-title"><p class="eyebrow">01 / CHEMICAL MORPHOGENS</p><h2>Feed &amp; kill controls</h2></div>
+        <div class="control-stack">
+          <label class="ctrl"><span>Pattern preset</span><select id="rd-preset"></select></label>
+          <label class="ctrl"><span>Feed rate F <output id="rd-feed-val">0.0367</output></span><input id="rd-feed" type="range" min="0.015" max="0.07" step="0.0005" value="0.0367"></label>
+          <label class="ctrl"><span>Kill rate k <output id="rd-kill-val">0.0649</output></span><input id="rd-kill" type="range" min="0.045" max="0.072" step="0.0005" value="0.0649"></label>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel-title"><p class="eyebrow">02 / BOTANICAL PHYLLOTAXIS</p><h2>Golden-angle primordia</h2></div>
+        <canvas id="phyllo-canvas" width="300" height="300" role="img" aria-label="Golden-angle phyllotaxis spiral"></canvas>
+        <div class="control-stack">
+          <label class="ctrl"><span>Primordia count <output id="phyllo-count-val">120</output></span><input id="phyllo-count" type="range" min="24" max="320" step="8" value="120"></label>
+          <label class="ctrl"><span>Divergence (deg) <output id="phyllo-angle-val">137.51</output></span><input id="phyllo-angle" type="range" min="120" max="155" step="0.05" value="137.51"></label>
+        </div>
+      </aside>
+    </div>
+
+    <section class="lab-notes">
+      <div>
+        <p class="eyebrow">03 / STOCHASTIC ANTI-TILING &amp; 5-MAP PBR</p>
+        <h2>Heitz-Neyret hexagonal surface recipes (24 materials)</h2>
+        <div class="control-stack">
+          <label class="ctrl"><span>Material preset</span><select id="pbr-material"></select></label>
+          <label class="ctrl"><span>Hex tile scale</span><input id="pbr-scale" type="range" min="0.5" max="6" step="0.25" value="2.0"></label>
+        </div>
+        <p id="pbr-summary" class="micro-detail"></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Simple Biology: Cell Lab · Clean-room MIT procedural biology &amp; PBR visualizations.</p>
+    <nav aria-label="Footer"><a href="./">Overview</a><a href="evolution.html">Cell evolution</a><a href="morphogenesis-lab.html">Morphogenesis lab</a><a href="support.html">Support</a></nav>
+  </footer>
+</body>
+</html>
